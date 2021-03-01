@@ -31,6 +31,7 @@ const Container = styled.div`
 
 const Column = styled.div`
     margin-left: 10px;
+    width: 50%;
 `;
 
 const Title = styled.h1`
@@ -51,6 +52,8 @@ const Poster = styled.div`
     background-image: url(${props => props.bg});
     width: 25%;
     height: 60%;
+    background-size: cover;
+    background-position: center center;
     background-color: transparent;
 `;
 
@@ -68,16 +71,15 @@ export default () => {
         variables: {id: parseInt(id)}
     });
     console.log(loading, error, data);
-    const movie = data.movie;
     
     return (
         <Container>
             <Column>
-                <Title>{movie.title}</Title>
-                <Subtitle>{movie.language} {movie.rating}</Subtitle>
-                <Description>{movie.description_intro}</Description>
+                <Title>{loading ? "Loading..." : data.movie.title}</Title>
+                {!loading && data.movie && <Subtitle>{data.movie.language} {data.movie.rating}</Subtitle>}
+                {!loading && data.movie && <Description>{data.movie.description_intro}</Description>}
             </Column>
-            <Poster bg={movie.medium_cover_image}/>
+            <Poster bg={data && data.movie ? data.movie.medium_cover_image : ""}/>
         </Container>
     );
 };

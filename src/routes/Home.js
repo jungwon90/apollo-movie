@@ -80,7 +80,7 @@ export default () => {
                 <Subtitle>I Love GraphQL</Subtitle>
             </Header>
             {loading && <Loading>Loading...</Loading>}
-            {!loading && data.movies &&(
+            {!loading && data && data.movies &&(
                 <Movies>
                     {data.movies.map(movie => (
                     <Movie key={movie.id} id={movie.id} bg={movie.medium_cover_image}/>
