@@ -2,6 +2,7 @@ import React from 'react';
 import {useParams} from 'react-router-dom';
 import {gql, useQuery} from '@apollo/client';
 import styled from 'styled-components';
+import Movie from '../components/Movie';
 
 //when you need to pass an argument to the query, such as 'id'
 //you need to write a name to that query 
@@ -16,8 +17,13 @@ const GET_MOVIE = gql`
             rating
             description_intro
         }
+        suggestions(id: $id){
+            id
+            medium_cover_image
+        }
     }
 `;
+
 
 const Container = styled.div`
     height: 100vh;
@@ -57,6 +63,14 @@ const Poster = styled.div`
     background-color: transparent;
 `;
 
+//Define Movies component using styled-component
+const Movies = styled.div`
+    display: flex;
+    grid-gap: 25px;
+    width: 60%;
+    top: -50px;
+`;
+
 
 //I want to get the id from the url
 //we can get parameters using useParams()
@@ -80,6 +94,14 @@ export default () => {
                 {!loading && data.movie && <Description>{data.movie.description_intro}</Description>}
             </Column>
             <Poster bg={data && data.movie ? data.movie.medium_cover_image : ""}/>
+            {!loading && data && data.suggestions &&(
+            <Movies>
+                {data.suggestions.map(movie => (
+                <Movie key={movie.id} id={movie.id} bg={movie.medium_cover_image}/>
+                ))}
+            </Movies>
+            )}
         </Container>
+     
     );
 };
