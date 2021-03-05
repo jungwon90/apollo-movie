@@ -5,11 +5,13 @@ import Movie from '../components/Movie';
 
 
 //create queries outside the components
+//isLiked @client -> isLiked is not on backend. so we need to put "@client", otherwise error
 const GET_MOVIES = gql`
     {
         movies {
             id
             medium_cover_image
+            isLiked @client
         }
     }
 `;
@@ -83,7 +85,7 @@ export default () => {
             {!loading && data && data.movies &&(
                 <Movies>
                     {data.movies.map(movie => (
-                    <Movie key={movie.id} id={movie.id} bg={movie.medium_cover_image}/>
+                    <Movie key={movie.id} id={movie.id} isLiked={movie.isLiked} bg={movie.medium_cover_image}/>
                     ))}
                 </Movies>
             )}
