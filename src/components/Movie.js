@@ -7,8 +7,8 @@ import {gql, useMutation} from '@apollo/client';
 //-> need to tell Apollo that this mutation is on client
 //because we don't want to send this mutation to the backend
 const LIKE_MOVIE = gql`
-    mutation toggleLikeMovie($id: Int!){
-        toggleLikeMovie(id: $id) @client
+    mutation toggleLikeMovie($id: Int!, $isLiked: Boolean!){
+        toggleLikeMovie(id: $id, isLiked: $isLiked) @client
     }
 `;
 
@@ -32,7 +32,7 @@ const Poster = styled.div`
 
 export default ({id, bg, isLiked}) => {
     //useMutation() will give me a mutation as the first element in the array.
-    const [toggleLikeMovie] = useMutation(LIKE_MOVIE, {variables: {id: parseInt(id)}})
+    const [toggleLikeMovie] = useMutation(LIKE_MOVIE, {variables: {id: parseInt(id), isLiked}})
     return (
         <Container>
             <Link to={`/${id}`}>

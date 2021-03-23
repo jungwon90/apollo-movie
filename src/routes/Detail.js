@@ -11,11 +11,13 @@ import Movie from '../components/Movie';
 const GET_MOVIE = gql`
     query getMovie($id: Int!){
         movie(id: $id){
+            id
             title
             medium_cover_image
             language
             rating
             description_intro
+            isLiked @client
         }
         suggestions(id: $id){
             id
@@ -89,7 +91,7 @@ export default () => {
     return (
         <Container>
             <Column>
-                <Title>{loading ? "Loading..." : data.movie.title}</Title>
+                <Title>{loading ? "Loading..." : `${data.movie.title} ${data.movie.isLiked ? '💘' : '😞'}`}</Title>
                 {!loading && data.movie && <Subtitle>{data.movie.language} {data.movie.rating}</Subtitle>}
                 {!loading && data.movie && <Description>{data.movie.description_intro}</Description>}
             </Column>

@@ -10,7 +10,7 @@ const client = new ApolloClient({
         },
         //We can also define mutations on Apollo-graphql Client
         Mutation: {              //pass the cache object to get data from cache
-            toggleLikeMovie: (_, {id}, {cache}) => {
+            toggleLikeMovie: (_, {id, isLiked}, {cache}) => {
                 //we want to use writeData() of cache object to modify 'isLiked'
                 cache.modify({
                     id: `Movie:${id}`,
